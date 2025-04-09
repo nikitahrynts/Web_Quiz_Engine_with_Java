@@ -8,6 +8,6 @@ import org.springframework.stereotype.Component;
 public class CompletionMapper {
 
     public CompletionDTO convertToDTO(Completion completion) {
-        return new CompletionDTO(completion.getId(), completion.getCreatedAt());
+        return new CompletionDTO(completion.getQuiz().getId(), completion.getCreatedAt());
     }
 }

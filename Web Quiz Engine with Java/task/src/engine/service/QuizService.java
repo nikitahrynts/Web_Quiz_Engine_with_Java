@@ -20,9 +20,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -56,8 +54,7 @@ public class QuizService {
     public Page<QuizResponse> getAllQuizzes(Integer page) {
         Pageable pageable = PageRequest.of(page, 10);
         Page<Quiz> quizzes = repository.findAll(pageable);
-        return quizzes.map(quiz ->
-                new QuizResponse(quiz.getId(), quiz.getTitle(), quiz.getText(), quiz.getOptions()));
+        return quizzes.map(mapper::convertToResponse);
     }
 
     public QuizResponse findQuizById(Long id) {
@@ -111,7 +108,6 @@ public class QuizService {
     public Page<CompletionDTO> getUserCompletions(Integer page, UserData user) {
         Pageable pageable = PageRequest.of(page, 10, Sort.Direction.DESC, "createdAt");
         Page<Completion> completions = quizCompletionRepository.findAllByUser(user.getUsername(), pageable);
-        return completions.map(completion ->
-                new CompletionDTO(completion.getQuiz().getId(), completion.getCreatedAt()));
+        return completions.map(completionMapper::convertToDTO);
     }
 }

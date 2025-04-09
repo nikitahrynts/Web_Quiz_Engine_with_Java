@@ -2,13 +2,14 @@ package engine.mapper;
 
 import engine.dto.QuizDTO;
 import engine.entity.Quiz;
+import engine.model.QuizResponse;
 import org.springframework.stereotype.Component;
 
 @Component
 public class QuizMapper {
 
-    public QuizDTO convertToDTO(Quiz quiz) {
-        return new QuizDTO(quiz.getId(), quiz.getTitle(), quiz.getText(), quiz.getOptions(), quiz.getAnswer(), quiz.getUser(), quiz.getCompletions());
+    public QuizResponse convertToResponse(Quiz quiz) {
+        return new QuizResponse(quiz.getId(), quiz.getTitle(), quiz.getText(), quiz.getOptions());
     }
 
     public Quiz convertToEntity(QuizDTO quizDTO) {
